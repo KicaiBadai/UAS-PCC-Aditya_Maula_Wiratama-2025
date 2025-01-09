@@ -3,29 +3,29 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - main  # Workflow ini akan dijalankan saat ada push ke branch 'main'
+      - main # Workflow ini akan dijalankan saat ada push ke branch 'main'
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Menjalankan workflow di environment Ubuntu terbaru
-    
+    runs-on: ubuntu-latest # Menjalankan workflow di environment Ubuntu terbaru
+
     steps:
       # Langkah 1: Checkout kode dari repository
       - name: Check out code
         uses: actions/checkout@v2
-        
+
       # Langkah 2: Login ke DockerHub menggunakan credentials yang disimpan di GitHub Secrets
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}  # Username DockerHub kamu yang disimpan di Secrets
-          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}  # Token yang disimpan di Secrets
-          
+          username: ${{ secrets.DOCKERHUB_USERNAME }} # Username DockerHub kamu yang disimpan di Secrets
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} # Token yang disimpan di Secrets
+
       # Langkah 3: Build Docker image dan push ke DockerHub
       - name: Build and push Docker image
         run: |
           # Build Docker image
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/uas-pcc-aditya_maula_wiratama-2025:latest -f Dockerfile .
-          
+
           # Push Docker image ke DockerHub
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/uas-pcc-aditya_maula_wiratama-2025:latest
